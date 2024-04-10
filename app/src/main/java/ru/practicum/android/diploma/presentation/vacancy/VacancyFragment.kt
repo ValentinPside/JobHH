@@ -84,6 +84,9 @@ class VacancyFragment : Fragment(R.layout.fragment_vacancy) {
                 .into(ivCompany)
 
             companyName.text = vacancy.area
+            contactPersonData.text = vacancy.contacts?.name
+            contactPersonEmailData.text = vacancy.contacts?.email
+            contactPersonPhoneData.text = vacancy.contacts?.phones.toString()
             neededExperience.text = vacancy.experience
             jobTime.text = vacancy.employment
 

@@ -11,7 +11,7 @@ object VacancyDbConvertor {
             vacancy.salary,
             vacancy.experience,
             vacancy.description,
-            vacancy.employerDto,
+            vacancy.employer,
             vacancy.keySkills,
             vacancy.area,
             vacancy.employment,
