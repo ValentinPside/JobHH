@@ -86,7 +86,9 @@ class FiltersMainFragment : Fragment(R.layout.fragment_filters_main) {
         )
 
         binding.tietSalary.setOnFocusChangeListener { v, hasFocus ->
-            onChangeSalary(binding.tietSalary.text.toString())
+            val salaryString = binding.tietSalary.text.toString()
+            if (!hasFocus && binding.tvSalaryHint.isEnabled) viewModel.setSalaryFilter(salaryString)
+            onChangeSalary(salaryString)
         }
 
         val callback = object : OnBackPressedCallback(true) {
@@ -112,18 +114,28 @@ class FiltersMainFragment : Fragment(R.layout.fragment_filters_main) {
             viewModel.setSalaryFilter("")
         }
         binding.cbOnlyWithSalary.setOnClickListener {
-            viewModel.setOnlySalaryFilter(binding.cbOnlyWithSalary.isChecked)
+            setOnlyWithSalayFilter()
         }
         binding.btnCancel.setOnClickListener { viewModel.clearAllFilters() }
 
         binding.llWorkPlace.root.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_filtersMainFragment_to_filtersWorkPlaceFragment
-            )
+            findNavController().navigate(R.id.action_filtersMainFragment_to_filtersWorkPlaceFragment)
         }
     }
 
+    private fun checkAndSaveEditText() {
+        if (binding.tvSalaryHint.isEnabled) {
+            viewModel.setSalaryFilter(binding.tietSalary.text.toString())
+        }
+    }
+
+    private fun setOnlyWithSalayFilter() {
+        checkAndSaveEditText()
+        viewModel.setOnlySalaryFilter(binding.cbOnlyWithSalary.isChecked)
+    }
+
     private fun onBackPressed() {
+        checkAndSaveEditText()
         findNavController().popBackStack()
     }
 
@@ -152,6 +164,9 @@ class FiltersMainFragment : Fragment(R.layout.fragment_filters_main) {
                 binding.btnCancel.isVisible = state.filtresAvailable
                 binding.btnAccept.isVisible = state.filterChanged
             }
+        }
+        if (binding.tvSalaryHint.isEnabled) {
+            binding.tietSalary.setSelection(binding.tietSalary.text?.length ?: 0)
         }
     }
 
