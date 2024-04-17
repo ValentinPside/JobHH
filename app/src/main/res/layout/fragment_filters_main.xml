@@ -79,6 +79,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/LightGrayDay_GrayNight"
                 android:singleLine="true"
+                android:textColor="@color/GrayDay_WhiteNight"
                 android:textCursorDrawable="@drawable/cursor_edit_text"
                 android:hint="@string/input_expected_salary" />
 

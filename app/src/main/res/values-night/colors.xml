@@ -3,4 +3,5 @@
     <color name="BlackDay_WhiteNight">@color/WhiteUniversal_yp</color>
     <color name="WhiteDay_BlackNight">@color/BlackUniversal_yp</color>
     <color name="LightGrayDay_GrayNight">@color/Gray_yp</color>
+    <color name="GrayDay_WhiteNight">@color/WhiteUniversal_yp</color>
 </resources>
