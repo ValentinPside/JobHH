@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/BlackUniversal_yp" android:drawable="@color/BlackUniversal_yp" android:state_enabled="false" android:state_selected="true" />
     <item android:color="@color/Blue_yp" android:drawable="@color/Blue_yp" android:state_enabled="true" />
-    <item android:color="@color/WhiteUniversal_yp" android:drawable="@color/WhiteUniversal_yp" android:state_enabled="false" />
+    <item android:color="@color/WhiteUniversal_yp" android:drawable="@color/WhiteUniversal_yp" />
 </selector>
