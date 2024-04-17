@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/filter_element_height"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/filter_element_height"
     android:clickable="true"
     android:orientation="horizontal">
 
@@ -31,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/fixed_text_selector"
-            tools:text="@string/filter_workplace" />
+            tools:text="Автокомпоненты, запчасти, шины (продвижение торговля и разное другое с кисточкой даже не видно)" />
     </LinearLayout>
 
     <ImageView

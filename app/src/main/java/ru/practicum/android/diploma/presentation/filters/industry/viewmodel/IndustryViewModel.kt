@@ -23,8 +23,8 @@ class IndustryViewModel @Inject constructor(
     private val filtersInteractor: FiltersInteractor
 ) : ViewModel() {
 
-    private val _industriesState = MutableLiveData<FiltersIndustriesState>()
-    val industriesState: LiveData<FiltersIndustriesState> = _industriesState
+    private val _industriesState = MutableLiveData<ViewState>()
+    val industriesState: LiveData<ViewState> = _industriesState
     private var currentIndustriesList = ArrayList<SubIndustry>()
     private var currentIndustry: SubIndustry? = null
 
@@ -36,7 +36,7 @@ class IndustryViewModel @Inject constructor(
     }
 
     fun getIndustries() {
-        _industriesState.postValue(FiltersIndustriesState.Loading)
+        _industriesState.postValue(ViewState(FiltersIndustriesState.Loading, currentIndustry != null))
         viewModelScope.launch {
             industryInteractor.getIndustries().collect { industry ->
                 loadIndustries(industry)
@@ -50,14 +50,19 @@ class IndustryViewModel @Inject constructor(
                 currentIndustriesList.clear()
                 currentIndustriesList.addAll(sortIndustries(industry.data))
 
-                _industriesState.postValue(successStatusOnList(currentIndustriesList))
+                _industriesState.postValue(
+                    ViewState(
+                        successStatusOnList(currentIndustriesList),
+                        currentIndustry != null
+                    )
+                )
             } else {
-                _industriesState.postValue(FiltersIndustriesState.Empty)
+                _industriesState.postValue(ViewState(FiltersIndustriesState.Empty, currentIndustry != null))
             }
         } else if (industry.code == SERVER_ERROR) {
-            _industriesState.postValue(FiltersIndustriesState.Empty)
+            _industriesState.postValue(ViewState(FiltersIndustriesState.Empty, currentIndustry != null))
         } else {
-            _industriesState.postValue(FiltersIndustriesState.Error)
+            _industriesState.postValue(ViewState(FiltersIndustriesState.Error, currentIndustry != null))
         }
     }
 
@@ -90,26 +95,29 @@ class IndustryViewModel @Inject constructor(
     }
 
     fun filterIndustries(editText: String) {
-        if (_industriesState.value !is FiltersIndustriesState.Success) return
-
         if (editText.isNotEmpty()) {
             val filteredList = currentIndustriesList.filter {
                 it.name.contains(editText, ignoreCase = true)
             }
             if (filteredList.isNotEmpty()) {
-                _industriesState.postValue(successStatusOnList(filteredList))
+                _industriesState.postValue(ViewState(successStatusOnList(filteredList), currentIndustry != null))
             } else {
-                _industriesState.postValue(FiltersIndustriesState.Empty)
+                _industriesState.postValue(ViewState(FiltersIndustriesState.Empty, currentIndustry != null))
             }
         } else {
-            _industriesState.postValue(successStatusOnList(currentIndustriesList))
+            _industriesState.postValue(ViewState(successStatusOnList(currentIndustriesList), currentIndustry != null))
         }
     }
 
     fun setCurrentIndustry(industryAdapterItem: IndustriesAdapterItem) {
         currentIndustry = industryAdapterItem.industry
 
-        _industriesState.postValue(FiltersIndustriesState.Selected)
+        _industriesState.postValue(
+            ViewState(
+                _industriesState.value?.stateData ?: FiltersIndustriesState.Empty,
+                currentIndustry != null
+            )
+        )
     }
 
     fun saveCurrentIndustry() {
@@ -125,3 +133,8 @@ class IndustryViewModel @Inject constructor(
         }
     }
 }
+
+class ViewState(
+    val stateData: FiltersIndustriesState,
+    var isSelected: Boolean
+)

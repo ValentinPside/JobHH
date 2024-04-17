@@ -62,7 +62,9 @@ class IndustryFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        viewModel.industriesState.observe(viewLifecycleOwner) { state ->
+        viewModel.industriesState.observe(viewLifecycleOwner) { viewState ->
+            val state = viewState.stateData
+            binding.chooseIndustryButton.isVisible = viewState.isSelected
             when (state) {
                 is FiltersIndustriesState.Error -> {
                     binding.llPlaceholderTrouble.isVisible = true
@@ -74,8 +76,6 @@ class IndustryFragment : Fragment() {
                     showEmpty()
                     setPlaceholderImage(state)
                 }
-
-                is FiltersIndustriesState.Selected -> binding.chooseIndustryButton.isVisible = true
 
                 is FiltersIndustriesState.Loading -> showLoading()
 
@@ -93,8 +93,6 @@ class IndustryFragment : Fragment() {
         if (state !is FiltersIndustriesState.Success) return
 
         val data = state.data
-
-        binding.chooseIndustryButton.isVisible = !state.currentIndustryId.isNullOrEmpty()
 
         adapter.updateList(data)
 
@@ -139,12 +137,5 @@ class IndustryFragment : Fragment() {
                 .fitCenter()
                 .into(binding.src)
         }
-
-    }
-
-    companion object {
-        const val REQUEST_KEY = "KEY"
-        const val INDUSTRY_KEY = "INDUSTRY"
-        const val INDUSTRY_KEY_ID = "INDUSTRY_ID"
     }
 }
