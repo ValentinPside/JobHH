@@ -5,13 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import ru.practicum.android.diploma.data.Constants.SERVER_ERROR
-import ru.practicum.android.diploma.data.Constants.SUCCESS_RESULT_CODE
-import ru.practicum.android.diploma.data.network.Resource
 import ru.practicum.android.diploma.domain.filters.industry.api.IndustryInteractor
 import ru.practicum.android.diploma.domain.filters.industry.models.Industry
 import ru.practicum.android.diploma.domain.filters.industry.models.SubIndustry
 import ru.practicum.android.diploma.domain.filters.models.FilterValue
+import ru.practicum.android.diploma.domain.models.Constants.SERVER_ERROR
+import ru.practicum.android.diploma.domain.models.Constants.SUCCESS_RESULT_CODE
+import ru.practicum.android.diploma.domain.models.Resource
 import ru.practicum.android.diploma.domain.sharedpreferences.api.FiltersInteractor
 import ru.practicum.android.diploma.domain.sharedpreferences.model.SharedFilterNames
 import ru.practicum.android.diploma.presentation.filters.industry.fragment.IndustriesAdapterItem

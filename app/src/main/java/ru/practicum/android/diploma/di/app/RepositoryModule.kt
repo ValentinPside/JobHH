@@ -9,6 +9,9 @@ import ru.practicum.android.diploma.data.favorites.impl.FavoritesRepositoryImpl
 import ru.practicum.android.diploma.data.filters.FiltersRepositoryImpl
 import ru.practicum.android.diploma.data.filters.SharedPreferencesRepositoryImpl
 import ru.practicum.android.diploma.data.general.VacanciesRepositoryImpl
+import ru.practicum.android.diploma.data.industry.impl.IndustryRepositoryImpl
+import ru.practicum.android.diploma.data.network.NetworkClient
+import ru.practicum.android.diploma.data.network.RetrofitNetworkClient
 import ru.practicum.android.diploma.domain.api.VacanciesRepository
 import ru.practicum.android.diploma.domain.favorites.api.FavoritesInteractor
 import ru.practicum.android.diploma.domain.favorites.api.FavoritesRepository
@@ -17,7 +20,6 @@ import ru.practicum.android.diploma.domain.filters.FiltersInteractorImpl
 import ru.practicum.android.diploma.domain.filters.industry.api.IndustryInteractor
 import ru.practicum.android.diploma.domain.filters.industry.api.IndustryRepository
 import ru.practicum.android.diploma.domain.filters.industry.impl.IndustryInteractorImpl
-import ru.practicum.android.diploma.domain.filters.industry.impl.IndustryRepositoryImpl
 import ru.practicum.android.diploma.domain.filters.main.api.FiltersRepository
 import ru.practicum.android.diploma.domain.sharedpreferences.api.FiltersInteractor
 import ru.practicum.android.diploma.domain.sharedpreferences.api.SharedPreferencesRepository
@@ -50,6 +52,9 @@ object RepositoryModule {
 
     @Provides
     fun providesIndustryRepository(impl: IndustryRepositoryImpl): IndustryRepository = impl
+
+    @Provides
+    fun providesNetworkClient(impl: RetrofitNetworkClient): NetworkClient = impl
 
     @Provides
     fun providesSharedPreferencesRepository(context: Context): SharedPreferencesRepository {

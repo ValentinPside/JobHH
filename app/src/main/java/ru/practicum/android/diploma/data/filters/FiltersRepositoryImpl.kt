@@ -1,7 +1,7 @@
 package ru.practicum.android.diploma.data.filters
 
 import ru.practicum.android.diploma.data.dto.VacancyAreaDto
-import ru.practicum.android.diploma.data.network.RetrofitNetworkClient
+import ru.practicum.android.diploma.data.network.NetworkClient
 import ru.practicum.android.diploma.data.network.models.AreasResponse
 import ru.practicum.android.diploma.domain.filters.main.api.FiltersRepository
 import ru.practicum.android.diploma.domain.filters.models.ResponseStateArea
@@ -9,7 +9,7 @@ import ru.practicum.android.diploma.domain.models.Area
 import javax.inject.Inject
 
 class FiltersRepositoryImpl @Inject constructor(
-    private val retrofitNetworkClient: RetrofitNetworkClient
+    private val retrofitNetworkClient: NetworkClient
 ) : FiltersRepository {
 
     companion object {

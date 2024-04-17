@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.data.network
+package ru.practicum.android.diploma.domain.models
 
 class Resource<T> (
     val code: Int? = null,

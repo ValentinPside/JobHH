@@ -5,10 +5,10 @@ import android.net.ConnectivityManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
-import ru.practicum.android.diploma.data.Constants
-import ru.practicum.android.diploma.data.IndustriesRequest
 import ru.practicum.android.diploma.data.dto.VacancyAreaDto
 import ru.practicum.android.diploma.data.network.models.AreasResponse
+import ru.practicum.android.diploma.domain.models.Constants
+import ru.practicum.android.diploma.domain.models.IndustriesRequest
 import java.io.IOException
 import javax.inject.Inject
 

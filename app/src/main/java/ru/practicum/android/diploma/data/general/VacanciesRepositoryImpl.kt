@@ -3,7 +3,7 @@ package ru.practicum.android.diploma.data.general
 import ru.practicum.android.diploma.data.asDomain
 import ru.practicum.android.diploma.data.dto.VacanciesResponse
 import ru.practicum.android.diploma.data.dto.detail.VacancyDetailDto
-import ru.practicum.android.diploma.data.network.RetrofitNetworkClient
+import ru.practicum.android.diploma.data.network.NetworkClient
 import ru.practicum.android.diploma.domain.api.VacanciesRepository
 import ru.practicum.android.diploma.domain.general.models.ResponseState
 import javax.inject.Inject
@@ -11,7 +11,7 @@ import javax.inject.Inject
 const val PAGINATION_COUNT_PAGES = "20"
 
 class VacanciesRepositoryImpl @Inject constructor(
-    private val retrofitNetworkClient: RetrofitNetworkClient
+    private val networkClient: NetworkClient
 ) : VacanciesRepository {
 
     companion object {
@@ -25,7 +25,7 @@ class VacanciesRepositoryImpl @Inject constructor(
             "page" to page.toString(),
             "per_page" to PAGINATION_COUNT_PAGES
         ).plus(filters)
-        val response = retrofitNetworkClient.doRequest(query)
+        val response = networkClient.doRequest(query)
         return if (response.resultCode == HTTP_OK && response is VacanciesResponse) {
             val listVacancies = response.items.asDomain()
 
@@ -42,7 +42,7 @@ class VacanciesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun searchById(id: String): ResponseState {
-        val response = retrofitNetworkClient.doRequestById(id)
+        val response = networkClient.doRequestById(id)
         return if (
             response.resultCode == HTTP_OK && response is VacancyDetailDto
         ) {
