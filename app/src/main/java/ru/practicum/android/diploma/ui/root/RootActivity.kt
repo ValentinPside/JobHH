@@ -1,18 +1,19 @@
 package ru.practicum.android.diploma.ui.root
 
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.ActivityRootBinding
+import ru.practicum.android.diploma.presentation.general.fragment.GeneralFragment
 
 class RootActivity : AppCompatActivity() {
 
     private var _binding: ActivityRootBinding? = null
     private val binding get() = _binding!!
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityRootBinding.inflate(layoutInflater)
@@ -31,6 +32,22 @@ class RootActivity : AppCompatActivity() {
         }
     }
 
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        if (ev?.action == MotionEvent.ACTION_DOWN) {
+            val navHostFragment =
+                supportFragmentManager.findFragmentById(R.id.container)
+            val myFragment = navHostFragment?.childFragmentManager?.fragments?.get(0)
+            myFragment?.let {
+                if (it is GeneralFragment) {
+                    it.setCoords(ev.x, ev.y)
+                }
+            }
+        }
+        //myFragment.doSomething()
+        return super.dispatchTouchEvent(ev)
+    }
+
+
     private fun hideBottomNav() {
         binding.bottomNavigation.visibility = View.GONE
     }
@@ -38,4 +55,5 @@ class RootActivity : AppCompatActivity() {
     private fun showBottomNav() {
         binding.bottomNavigation.visibility = View.VISIBLE
     }
+
 }

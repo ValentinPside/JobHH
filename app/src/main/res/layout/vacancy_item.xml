@@ -1,12 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
     android:paddingTop="9dp"
-    android:paddingBottom="9dp"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:paddingBottom="9dp">
+
+
+    <ImageView
+        android:id="@+id/ivLike"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:paddingEnd="20dp"
+        android:scaleType="center"
+        android:src="@drawable/favorite_vacancy_drawable_empty"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/ivAddToFav"
+        app:layout_constraintEnd_toEndOf="@id/card"
+        app:layout_constraintEnd_toStartOf="@+id/card"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@id/progressLike"
+        app:layout_constraintTop_toTopOf="@id/card" />
+
+    <ProgressBar
+        android:id="@+id/progressLike"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:indeterminateTint="@color/Blue_yp"
+        android:paddingEnd="20dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/ivAddToFav"
+        app:layout_constraintEnd_toStartOf="@id/ivLike"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/card" />
+
+
+    <ImageView
+        android:id="@+id/ivAddToFav"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="end"
+        android:alpha="1"
+        android:scaleType="centerCrop"
+        android:src="@drawable/favorite_vacancy_drawable_fill"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@id/card"
+        app:layout_constraintStart_toStartOf="@id/card"
+        app:layout_constraintTop_toBottomOf="@id/card" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card"
@@ -16,20 +61,20 @@
         app:cardCornerRadius="@dimen/dimen_12dp"
         app:cardElevation="0dp"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivLike"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_company"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:strokeWidth="1dp"
+            android:background="@color/white"
             android:padding="1dp"
-            app:strokeColor="@color/black"
             android:scaleType="centerInside"
             android:src="@drawable/placeholder_company_icon"
             app:shapeAppearanceOverlay="@style/rounded_12"
-            android:background="@color/white"/>
+            app:strokeColor="@color/black"
+            app:strokeWidth="1dp" />
     </com.google.android.material.card.MaterialCardView>
 
     <TextView
@@ -40,10 +85,10 @@
         android:layout_marginStart="@dimen/dimen_12dp"
         android:ellipsize="end"
         android:maxLines="3"
+        android:textColor="@color/BlackDay_WhiteNight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/card"
         app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/BlackDay_WhiteNight"
         tools:text="Разработчик на С++ в команду внутренних сервисов, Москва" />
 
     <TextView
@@ -54,10 +99,10 @@
         android:layout_marginStart="@dimen/dimen_12dp"
         android:ellipsize="end"
         android:maxLines="1"
+        android:textColor="@color/BlackDay_WhiteNight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/card"
         app:layout_constraintTop_toBottomOf="@id/tv_vacancy_name"
-        android:textColor="@color/BlackDay_WhiteNight"
         tools:text="Авто.ру" />
 
     <TextView
@@ -68,10 +113,10 @@
         android:layout_marginStart="@dimen/dimen_12dp"
         android:ellipsize="end"
         android:maxLines="1"
+        android:textColor="@color/BlackDay_WhiteNight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/card"
         app:layout_constraintTop_toBottomOf="@id/department"
-        android:textColor="@color/BlackDay_WhiteNight"
         tools:text="от 40 000 до 80 000 ₽" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

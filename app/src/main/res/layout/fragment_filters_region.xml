@@ -79,7 +79,7 @@
         android:layout_marginVertical="@dimen/dimen_32dp"
         android:gravity="center"
         android:visibility="gone"
-        tools:visibility="visible"
+        tools:visibility="gone"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

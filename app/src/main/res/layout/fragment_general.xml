@@ -6,7 +6,6 @@
     android:background="?colorSecondary"
     tools:context=".presentation.general.fragment.GeneralFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/appbar"
         android:layout_width="match_parent"

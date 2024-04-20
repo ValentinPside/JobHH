@@ -9,8 +9,8 @@ import javax.inject.Inject
 
 class FavoritesInteractorImpl
 @Inject constructor(private val favoritesRepository: FavoritesRepository) : FavoritesInteractor {
-    override fun favoritesVacancies(): Flow<List<Vacancy>> {
-        return favoritesRepository.favoritesVacancies()
+    override fun favoritesVacancies(query: String): Flow<List<Vacancy>> {
+        return favoritesRepository.favoritesVacancies(query)
     }
 
     override suspend fun insertDbVacanciToFavorite(vacancyDetail: VacancyDetail) {

@@ -15,8 +15,8 @@ import javax.inject.Inject
 class FavoritesRepositoryImpl @Inject constructor(
     private val appDatabase: AppDatabase
 ) : FavoritesRepository {
-    override fun favoritesVacancies(): Flow<List<Vacancy>> = flow {
-        val vacancyList = appDatabase.favoriteDao().getVacancyFromFavorite()
+    override fun favoritesVacancies(query: String): Flow<List<Vacancy>> = flow {
+        val vacancyList = appDatabase.favoriteDao().getVacancyFromFavorite(query)
         emit(convertFromVacancyEntity(vacancyList))
     }
 

@@ -7,5 +7,5 @@ sealed interface VacancyViewState {
 
     data object Loading : VacancyViewState
 
-    data object ServerError : VacancyViewState
+    data class Error(val isPageNotFound: Boolean = false) : VacancyViewState
 }

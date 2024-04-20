@@ -8,10 +8,14 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.app.App
 import ru.practicum.android.diploma.databinding.FragmentFavoritesBinding
@@ -20,11 +24,13 @@ import ru.practicum.android.diploma.presentation.Factory
 import ru.practicum.android.diploma.presentation.favorites.state.FavoritesState
 import ru.practicum.android.diploma.presentation.favorites.viewmodel.FavoritesViewModel
 import ru.practicum.android.diploma.presentation.general.VacanciesAdapter
+import ru.practicum.android.diploma.util.onTextChangeDebounce
 
 class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
     companion object {
         const val VACANCY_DATA = "id"
+        const val DEBAUNCE = 1000L
         fun createArgs(vacancyId: String): Bundle =
             bundleOf(VACANCY_DATA to vacancyId)
     }
@@ -39,9 +45,9 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
     private val binding get() = _binding!!
 
     private val adapter by lazy {
-        VacanciesAdapter() {
+        VacanciesAdapter(false, {
             viewModel.showDetails(it)
-        }
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -62,6 +68,12 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         viewModel.getShowPlayerTrigger().observe(viewLifecycleOwner) { vacancy ->
             showDetails(vacancy)
         }
+
+        binding.searchEditText.onTextChangeDebounce().debounce(DEBAUNCE)
+            .onEach {
+                val query = it?.toString().orEmpty()
+                viewModel.search(query)
+            }.launchIn(lifecycleScope)
     }
 
     private fun showDetails(vacancyId: String) {

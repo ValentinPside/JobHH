@@ -14,10 +14,9 @@ interface FavoritesVacancyDao {
     @Query("DELETE FROM favorites_vacancies_table WHERE  id = :vacancyID")
     suspend fun deleteVacancyFromFavorite(vacancyID: String)
 
-    @Query("SELECT * FROM favorites_vacancies_table  ORDER BY inDbTime DESC")
-    suspend fun getVacancyFromFavorite(): List<FavoritesVacanciesEntity>
+    @Query("SELECT * FROM favorites_vacancies_table WHERE CASE WHEN :searchString = '' THEN 1=1 ELSE vacancyDetailData LIKE :searchString END ORDER BY inDbTime DESC ")
+    suspend fun getVacancyFromFavorite(searchString: String): List<FavoritesVacanciesEntity>
 
     @Query("SELECT * FROM favorites_vacancies_table WHERE  id = :vacancyID")
     suspend fun elementById(vacancyID: String): List<FavoritesVacanciesEntity>
-
 }

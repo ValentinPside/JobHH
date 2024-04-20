@@ -33,20 +33,24 @@ class VacancyViewModel @Inject constructor(
         viewModelScope.launch {
             state.postValue(VacancyViewState.Loading)
             val isFavorite = isFavorite(vacancyId)
-            @Suppress("SwallowedException")
             try {
                 val response = searchVacanciesByIdUseCase(vacancyId)
-
                 when (response) {
                     is ResponseState.ContentVacancyDetail -> {
                         if (isFavorite) favoritesInteractor.insertDbVacanciToFavorite(response.vacancyDetail)
                         state.postValue(VacancyViewState.Content(response.vacancyDetail, isFavorite))
                     }
 
-                    else -> if (isFavorite) loadFromFavorites()
+                    else -> if (isFavorite && response is ResponseState.NetworkError && response.needClearFavorites) {
+                        state.postValue(VacancyViewState.Error(true))
+                        deleteFavVac()
+                    } else {
+                        if (isFavorite) loadFromFavorites()
+                    }
                 }
             } catch (e: IOException) {
-                state.postValue(VacancyViewState.ServerError)
+                println(e)
+                state.postValue(VacancyViewState.Error())
             }
         }
     }
@@ -95,7 +99,7 @@ class VacancyViewModel @Inject constructor(
     suspend fun loadFromFavorites() {
         val res = favoritesInteractor.loadFavoriteVacancy(vacancyId)
         if (res == null) {
-            state.postValue(VacancyViewState.ServerError)
+            state.postValue(VacancyViewState.Error())
         } else {
             state.postValue(VacancyViewState.Content(res, true))
         }

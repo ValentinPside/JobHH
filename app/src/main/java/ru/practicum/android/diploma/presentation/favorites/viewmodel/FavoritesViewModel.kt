@@ -36,12 +36,12 @@ class FavoritesViewModel @Inject constructor(
 
     fun getState(): LiveData<FavoritesState> = state
 
-    fun loadFavorites() {
+    fun loadFavorites(query: String = "") {
         state.postValue(FavoritesState.Loading)
         viewModelScope.launch {
             try {
                 favoritesInteractor
-                    .favoritesVacancies()
+                    .favoritesVacancies(query)
                     .collect { vacancies ->
                         if (vacancies.isEmpty()) {
                             state.postValue(FavoritesState.Empty)
@@ -58,5 +58,15 @@ class FavoritesViewModel @Inject constructor(
 
     fun showDetails(id: String) {
         onVacancyClickDebounce(id)
+    }
+
+    fun search(query: String) {
+        var queryString = query
+        if (queryString.isNotEmpty()) {
+            queryString = queryString.replace(" ", "%")
+            queryString = "%" + queryString + "%"
+        }
+
+        loadFavorites(queryString)
     }
 }

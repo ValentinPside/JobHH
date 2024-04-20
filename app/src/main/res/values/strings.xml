@@ -55,4 +55,5 @@
     <string name="no_region">Такого региона нет</string>
     <string name="choise_industry">Выбор отрасли</string>
     <string name="input_industry">Введите отрасль</string>
+    <string name="delete_vacancy">Вакансия была удалена</string>
 </resources>

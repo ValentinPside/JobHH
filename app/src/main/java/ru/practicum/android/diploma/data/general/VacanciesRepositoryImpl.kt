@@ -17,6 +17,8 @@ class VacanciesRepositoryImpl @Inject constructor(
     companion object {
         const val HTTP_OK = 200
         const val HTTP_CLIENT_ERROR = 400
+        const val HTTP_PAGE_NOT_FOUND = 404
+        const val HTTP_SERVER_ERROR = 500
     }
 
     override suspend fun search(text: String, page: Int, filters: Map<String, String>): ResponseState {
@@ -48,11 +50,11 @@ class VacanciesRepositoryImpl @Inject constructor(
         ) {
             ResponseState.ContentVacancyDetail(response.asDomain())
         } else if (
-            response.resultCode == HTTP_CLIENT_ERROR
+            response.resultCode >= HTTP_SERVER_ERROR
         ) {
             ResponseState.ServerError
         } else {
-            ResponseState.NetworkError(false)
+            ResponseState.NetworkError(false, response.resultCode == HTTP_PAGE_NOT_FOUND)
         }
     }
 }

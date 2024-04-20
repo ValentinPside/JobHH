@@ -373,7 +373,7 @@
                 android:src="@drawable/state_image_server_error" />
 
             <TextView
-                android:id="@+id/src_text"
+                android:id="@+id/tvSrcText"
                 style="@style/TitleTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

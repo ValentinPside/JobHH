@@ -13,7 +13,7 @@ sealed class ResponseState {
         val pages: Int
     ) : ResponseState()
     data class ContentVacancyDetail(val vacancyDetail: VacancyDetail) : ResponseState()
-    data class NetworkError(val isPagination: Boolean) : ResponseState()
+    data class NetworkError(val isPagination: Boolean, val needClearFavorites: Boolean = false) : ResponseState()
     data object ServerError : ResponseState()
     data class Loading(val isPagination: Boolean) : ResponseState()
 }

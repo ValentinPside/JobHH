@@ -90,14 +90,19 @@ class VacancyFragment : Fragment(R.layout.fragment_vacancy) {
             else -> false
         }
         binding.clPlaceholderTrouble.isVisible = when (state) {
-            is VacancyViewState.ServerError -> true
+            is VacancyViewState.Error -> {
+                if (state.isPageNotFound) { binding.tvSrcText.setText(R.string.delete_vacancy)
+                } else { binding.tvSrcText.setText(R.string.server_error)
+                }
+                true
+            }
+
             else -> false
         }
         binding.progressBar.isVisible = when (state) {
             is VacancyViewState.Loading -> true
             else -> false
         }
-
         when (state) {
             is VacancyViewState.Content -> {
                 renderVacancyDetail(state.vacancyDetail)
