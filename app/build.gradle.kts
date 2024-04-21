@@ -16,8 +16,8 @@ android {
         applicationId = "ru.practicum.android.diploma"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 4
-        versionName = "1.4"
+        versionCode = 5
+        versionName = "1.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -42,7 +42,6 @@ android {
         buildConfig = true
         viewBinding = true
     }
-
 }
 
 dependencies {

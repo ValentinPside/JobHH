@@ -391,7 +391,11 @@ class GeneralFragment : Fragment(R.layout.fragment_general) {
         for (i in 0 until binding.vacanciesRv.childCount) {
             val vh =
                 binding.vacanciesRv.getChildViewHolder(binding.vacanciesRv.getChildAt(i)) as VacanciesAdapter.ViewHolder
-            vh.updateFavIco(vacancy = adapter.currentList.get(vh.adapterPosition))
+            if (vh.adapterPosition != -1) {
+                adapter.currentList.get(vh.adapterPosition)?.let {
+                    vh.updateFavIco(it)
+                }
+            }
         }
     }
 
@@ -413,8 +417,10 @@ class GeneralFragment : Fragment(R.layout.fragment_general) {
                         && coordY < rectL.bottom
                     ) {
                         val holderPosition = currentHolder!!.adapterPosition
-                        val vacancy = adapter.currentList.get(holderPosition)
-                        viewModel.switchFavorite(vacancy.id, holderPosition)
+                        if (holderPosition >= 0) {
+                            val vacancy = adapter.currentList.get(holderPosition)
+                            viewModel.switchFavorite(vacancy.id, holderPosition)
+                        }
                     }
                 }
                 it.isOpen = false
@@ -429,8 +435,11 @@ class GeneralFragment : Fragment(R.layout.fragment_general) {
 
         val ivLike = vh.itemView.findViewById<ImageView>(R.id.ivLike)
         val ivLikeSmall = vh.itemView.findViewById<ImageView>(R.id.ivAddToFav)
-        val vacancy = adapter.currentList.get(vh.adapterPosition)
-        val targetAlpha = if (vacancy.isFavorite) 1f else 0f
+        var targetAlpha = 0f
+        if (vh.adapterPosition >= 0) {
+            val vacancy = adapter.currentList.get(vh.adapterPosition)
+            targetAlpha = if (vacancy.isFavorite) 1f else 0f
+        }
 
         val anim =
             ResizeAnimationWithAlpha(ivLike, ivLikeSmall, UtilFunction.dpToPx(0f, requireContext()), targetAlpha)
@@ -452,7 +461,9 @@ class GeneralFragment : Fragment(R.layout.fragment_general) {
                 super.cancel()
                 //nowClosed = false
                 adapter.notifyItemChanged(vh.layoutPosition)
-                vh.updateFavIco(vacancy = adapter.currentList.get(vh.adapterPosition))
+                if (vh.adapterPosition >= 0) {
+                    vh.updateFavIco(vacancy = adapter.currentList.get(vh.adapterPosition))
+                }
             }
         })
         ivLike.startAnimation(anim)
