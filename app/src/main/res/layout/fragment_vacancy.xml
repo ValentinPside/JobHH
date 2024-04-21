@@ -113,6 +113,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="75dp"
                         android:layout_marginTop="@dimen/dimen_16dp"
+                        android:layout_marginEnd="@dimen/dimen_16dp"
                         android:singleLine="true"
                         android:textColor="@color/BlackUniversal_yp"
                         tools:text="COMPANY_NAME_TEXT" />
@@ -124,6 +125,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="75dp"
                         android:layout_marginTop="46dp"
+                        android:layout_marginEnd="@dimen/dimen_16dp"
                         android:textColor="@color/BlackUniversal_yp"
                         tools:text="company_city_text" />
 
