@@ -34,23 +34,27 @@ class VacancyViewModel @Inject constructor(
             state.postValue(VacancyViewState.Loading)
             val isFavorite = isFavorite(vacancyId)
             try {
-                val response = searchVacanciesByIdUseCase(vacancyId)
-                when (response) {
-                    is ResponseState.ContentVacancyDetail -> {
-                        if (isFavorite) favoritesInteractor.insertDbVacanciToFavorite(response.vacancyDetail)
-                        state.postValue(VacancyViewState.Content(response.vacancyDetail, isFavorite))
-                    }
-
-                    else -> if (isFavorite && response is ResponseState.NetworkError && response.needClearFavorites) {
-                        state.postValue(VacancyViewState.Error(true))
-                        deleteFavVac()
-                    } else {
-                        if (isFavorite) loadFromFavorites()
-                    }
-                }
+                loadDataAsync(isFavorite)
             } catch (e: IOException) {
                 println(e)
                 state.postValue(VacancyViewState.Error())
+            }
+        }
+    }
+
+    suspend fun loadDataAsync(isFavorite: Boolean) {
+        val response = searchVacanciesByIdUseCase(vacancyId)
+        when (response) {
+            is ResponseState.ContentVacancyDetail -> {
+                if (isFavorite) favoritesInteractor.insertDbVacanciToFavorite(response.vacancyDetail)
+                state.postValue(VacancyViewState.Content(response.vacancyDetail, isFavorite))
+            }
+
+            else -> if (isFavorite && response is ResponseState.NetworkError && response.needClearFavorites) {
+                state.postValue(VacancyViewState.Error(true))
+                deleteFavVac()
+            } else {
+                if (isFavorite) loadFromFavorites()
             }
         }
     }

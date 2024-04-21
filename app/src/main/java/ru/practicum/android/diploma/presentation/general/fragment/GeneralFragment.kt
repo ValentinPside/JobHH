@@ -29,9 +29,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.app.App
 import ru.practicum.android.diploma.databinding.FragmentGeneralBinding
@@ -53,7 +55,6 @@ class GeneralFragment : Fragment(R.layout.fragment_general) {
 
     private var coordX = 0f
     private var coordY = 0f
-    private var differenceCoordY = 0f
 
     lateinit var touchHelper: ItemTouchHelper
 
@@ -77,7 +78,13 @@ class GeneralFragment : Fragment(R.layout.fragment_general) {
         VacanciesAdapter(true, {
             val params = bundleOf("id" to it)
             findNavController().navigate(R.id.action_generalFragment_to_vacancyFragment, params)
-        })
+        }) {
+            lifecycleScope.launch {
+                openViewHolder(it)
+                delay(200L)
+                closeHolder(it)
+            }
+        }
     }
 
     private val debaunceCloseItems =
@@ -101,6 +108,52 @@ class GeneralFragment : Fragment(R.layout.fragment_general) {
         }
 
         setHelpers()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setListeners() {
+        binding.searchEditText.onTextChangeDebounce().debounce(DEBOUNCE)
+            .onEach {
+                val query = it?.toString().orEmpty()
+                currentHolder = null
+                viewModel.search(query)
+            }.launchIn(lifecycleScope)
+
+        binding.searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                setupIcon(p0.toString())
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
+        })
+
+        binding.clearButton.setOnClickListener {
+            binding.searchEditText.text = null
+        }
+
+        binding.vacanciesRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    val pos = (binding.vacanciesRv.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                    val itemsCount = adapter.itemCount
+                    if (pos >= itemsCount - 1) {
+                        viewModel.onLastItemReached()
+                    }
+                }
+            }
+        })
+        binding.filterImageView.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_generalFragment_to_filtersMainFragment
+            )
+        }
+
+        binding.vacanciesRv.setOnTouchListener { v, event ->
+            onTouch(v, event)
+            false
+        }
     }
 
     private fun setHelpers() {
@@ -150,7 +203,7 @@ class GeneralFragment : Fragment(R.layout.fragment_general) {
                         && abs(dX - prevPos) >= 5
                         && isCurrentlyActive == false
                         && currentHolder != viewHolder
-                        && currentHolder?.isOpen ?: false
+                        && currentHolder?.isOpen == true
                     ) {
                         closeHolder(viewHolder as VacanciesAdapter.ViewHolder)
                     }
@@ -167,48 +220,60 @@ class GeneralFragment : Fragment(R.layout.fragment_general) {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     when (direction) {
                         ItemTouchHelper.END -> {
-                            if ((viewHolder as VacanciesAdapter.ViewHolder).isHolderOpen()) return
-
-                            if (!(currentHolder == viewHolder) && currentHolder?.isHolderOpen() ?: false) {
-                                currentHolder?.let { closeHolder(it, true) }
-                            }
-
-                            currentHolder = (viewHolder as VacanciesAdapter.ViewHolder)
-
-                            val ivLikeBig = viewHolder.itemView.findViewById<ImageView>(R.id.ivLike)
-                            val ivLikeSmall = viewHolder.itemView.findViewById<ImageView>(R.id.ivAddToFav)
-                            val anim = ResizeAnimationWithAlpha(
-                                ivLikeBig,
-                                ivLikeSmall,
-                                UtilFunction.dpToPx(SIZE_VISIBLE_LIKE_ICO, requireContext()),
-                                0f
-                            )
-                            anim.setAnimationListener(object : Animation.AnimationListener {
-                                override fun onAnimationStart(animation: Animation?) = Unit
-                                override fun onAnimationEnd(animation: Animation?) {
-                                    //nowClosed = false
-
-                                    debaunceCloseItems(true)
-                                }
-
-                                override fun onAnimationRepeat(animation: Animation?) = Unit
-                            })
-                            ivLikeBig.clearAnimation()
-                            ivLikeBig.startAnimation(anim)
+                            openViewHolder(viewHolder as VacanciesAdapter.ViewHolder)
                         }
                     }
                 }
-
-
             })
 
         touchHelper.attachToRecyclerView(binding.vacanciesRv)
+    }
 
+    private fun openViewHolder(viewHolder: VacanciesAdapter.ViewHolder) {
+        if (viewHolder.isHolderOpen()) return
+
+        if (!(currentHolder == viewHolder) && currentHolder?.isHolderOpen() == true) {
+            currentHolder?.let { closeHolder(it, true) }
+        }
+
+        currentHolder = viewHolder
+
+        val ivLikeBig = viewHolder.itemView.findViewById<ImageView>(R.id.ivLike)
+        val ivLikeSmall = viewHolder.itemView.findViewById<ImageView>(R.id.ivAddToFav)
+        val anim = ResizeAnimationWithAlpha(
+            ivLikeBig,
+            ivLikeSmall,
+            UtilFunction.dpToPx(SIZE_VISIBLE_LIKE_ICO, requireContext()),
+            0f
+        )
+        anim.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation?) = Unit
+            override fun onAnimationEnd(animation: Animation?) {
+                debaunceCloseItems(true)
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) = Unit
+        })
+        ivLikeBig.clearAnimation()
+        ivLikeBig.startAnimation(anim)
+    }
+
+    private fun setObservers() {
+        viewModel.observeUi().observe(viewLifecycleOwner) { state ->
+            render(state)
+        }
+        viewModel.observeFilters().observe(viewLifecycleOwner) { isWithFilters ->
+            checkFilters(isWithFilters)
+        }
+
+        viewModel.observeIsFavorite().observe(viewLifecycleOwner) { favState ->
+            renderFavState(favState)
+        }
     }
 
     private fun checkAndClose(needUpdate: Boolean = false) {
         if (_binding == null) return
-        for (i in 0 until binding.vacanciesRv.getChildCount()) {
+        for (i in 0 until binding.vacanciesRv.childCount) {
             val vh = binding.vacanciesRv.getChildViewHolder(binding.vacanciesRv.getChildAt(i))
             if (currentHolder != vh
                 && (vh as VacanciesAdapter.ViewHolder).isHolderOpen()
@@ -244,43 +309,19 @@ class GeneralFragment : Fragment(R.layout.fragment_general) {
             viewAlpha.alpha = (startAlpha + (targetAlpha - startAlpha) * interpolatedTime)
         }
 
-        override fun initialize(width: Int, height: Int, parentWidth: Int, parentHeight: Int) {
-            super.initialize(width, height, parentWidth, parentHeight)
-        }
-
         override fun willChangeBounds(): Boolean {
             return true
         }
     }
 
-    private fun setObservers() {
-        viewModel.observeUi().observe(viewLifecycleOwner) { state ->
-            render(state)
-        }
-        viewModel.observeFilters().observe(viewLifecycleOwner) { isWithFilters ->
-            checkFilters(isWithFilters)
-        }
-
-        viewModel.observeIsFavorite().observe(viewLifecycleOwner) { favState ->
-            renderFavState(favState)
-        }
-    }
-
-
     private fun renderFavState(favState: FavoriteState) {
-        if (favState is FavoriteState.Content) {
-
-        }
-
         setupIconCurrentHolder(favState)
     }
-
 
     private fun setupIconCurrentHolder(favState: FavoriteState) {
         currentHolder?.let {
             val ivLike = it.itemView.findViewById<ImageView>(R.id.ivLike)
             val progressLike = it.itemView.findViewById<ProgressBar>(R.id.progressLike)
-            val ivLikeSmall = it.itemView.findViewById<ImageView>(R.id.ivAddToFav)
             val image = when (favState) {
                 is FavoriteState.Content -> {
                     currentHolder?.isOpen = false
@@ -291,12 +332,10 @@ class GeneralFragment : Fragment(R.layout.fragment_general) {
                         vacancy.isFavorite = favState.isFavorite
                         when (favState.isFavorite) {
                             true -> {
-                                ivLikeSmall.alpha = 1f
                                 R.drawable.favorite_vacancy_drawable_fill
                             }
 
                             false -> {
-                                ivLikeSmall.alpha = 0f
                                 R.drawable.favorite_vacancy_drawable_empty
                             }
                         }
@@ -332,6 +371,7 @@ class GeneralFragment : Fragment(R.layout.fragment_general) {
     private fun render(state: ResponseState) {
         if (state is ResponseState.ContentVacanciesList) {
             adapter.submitList(state.listVacancy)
+            updateFavIco()
         } else {
             val needClearList = when (state) {
                 is ResponseState.Loading -> !state.isPagination
@@ -346,49 +386,12 @@ class GeneralFragment : Fragment(R.layout.fragment_general) {
         updateStatus(state)
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    private fun setListeners() {
-        binding.searchEditText.onTextChangeDebounce().debounce(DEBOUNCE)
-            .onEach {
-                val query = it?.toString().orEmpty()
-                currentHolder = null
-                viewModel.search(query)
-            }.launchIn(lifecycleScope)
-
-        binding.searchEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-                setupIcon(p0.toString())
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
-        })
-
-        binding.clearButton.setOnClickListener {
-            binding.searchEditText.text = null
-        }
-
-        binding.vacanciesRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0) {
-                    val pos = (binding.vacanciesRv.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                    val itemsCount = adapter.itemCount
-                    if (pos >= itemsCount - 1) {
-                        viewModel.onLastItemReached()
-                    }
-                }
-            }
-        })
-        binding.filterImageView.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_generalFragment_to_filtersMainFragment
-            )
-        }
-
-        binding.vacanciesRv.setOnTouchListener { v, event ->
-            onTouch(v, event)
-            false
+    private fun updateFavIco() {
+        if (_binding == null) return
+        for (i in 0 until binding.vacanciesRv.childCount) {
+            val vh =
+                binding.vacanciesRv.getChildViewHolder(binding.vacanciesRv.getChildAt(i)) as VacanciesAdapter.ViewHolder
+            vh.updateFavIco(vacancy = adapter.currentList.get(vh.adapterPosition))
         }
     }
 
@@ -437,7 +440,10 @@ class GeneralFragment : Fragment(R.layout.fragment_general) {
             override fun onAnimationEnd(animation: Animation?) {
                 // nowClosed = false
 
-                if (needUpdate) adapter.notifyItemChanged(vh.layoutPosition)
+                if (needUpdate) {
+                    adapter.notifyItemChanged(vh.layoutPosition)
+                    vh.updateFavIco(vacancy = adapter.currentList.get(vh.adapterPosition))
+                }
             }
 
             override fun onAnimationRepeat(animation: Animation?) = Unit
@@ -446,6 +452,7 @@ class GeneralFragment : Fragment(R.layout.fragment_general) {
                 super.cancel()
                 //nowClosed = false
                 adapter.notifyItemChanged(vh.layoutPosition)
+                vh.updateFavIco(vacancy = adapter.currentList.get(vh.adapterPosition))
             }
         })
         ivLike.startAnimation(anim)
@@ -591,7 +598,7 @@ class GeneralFragment : Fragment(R.layout.fragment_general) {
     override fun onResume() {
         super.onResume()
         currentHolder = null
-        viewModel.updateHasFilters()
+        viewModel.updateData()
         activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)?.isVisible = true
     }
 }

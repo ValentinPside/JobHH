@@ -65,6 +65,7 @@
         android:layout_marginTop="@dimen/dimen_8dp"
         android:clipToPadding="false"
         android:paddingBottom="50dp"
+        android:background="@color/WhiteDay_BlackNight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

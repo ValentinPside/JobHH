@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.favorites.api.FavoritesInteractor
+import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.presentation.favorites.state.FavoritesState
 import ru.practicum.android.diploma.ui.SingleLiveEvent
 import ru.practicum.android.diploma.util.debounceFun
@@ -68,5 +69,21 @@ class FavoritesViewModel @Inject constructor(
         }
 
         loadFavorites(queryString)
+    }
+
+    fun deleteFromFavorite(vacancy: Vacancy) {
+        val currentValue = state.value
+
+        viewModelScope.launch {
+            favoritesInteractor.deleteDbVacanciFromFavorite(vacancy.id)
+            if (currentValue is FavoritesState.Content) {
+                currentValue.favoritesVacancies = currentValue.favoritesVacancies.filter { it.id != vacancy.id }
+                if (currentValue.favoritesVacancies.isEmpty()) {
+                    state.postValue(FavoritesState.Empty)
+                } else {
+                    state.postValue(state.value)
+                }
+            }
+        }
     }
 }

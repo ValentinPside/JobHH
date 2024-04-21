@@ -28,6 +28,17 @@
         android:hint="Поиск по любой информации в деталях"
         android:padding="@dimen/dimen_16dp" />
 
+    <Button
+        android:id="@+id/clear_button"
+        android:layout_width="@dimen/big_size"
+        android:layout_height="@dimen/big_size"
+        android:layout_gravity="end"
+        android:layout_marginTop="66dp"
+        android:layout_marginEnd="@dimen/dimen_20dp"
+        android:layout_marginBottom="@dimen/dimen_8dp"
+        android:alpha="0"
+        android:enabled="false" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFavorite"
         android:layout_width="match_parent"

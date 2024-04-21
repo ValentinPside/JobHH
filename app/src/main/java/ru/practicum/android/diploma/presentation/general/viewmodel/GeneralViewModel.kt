@@ -30,7 +30,6 @@ class GeneralViewModel @Inject constructor(
 
     private var isNextPageLoading = false
 
-    private var filtersMap = emptyMap<String, String>()
 
     fun observeUi(): LiveData<ResponseState> = state
     fun observeFilters(): LiveData<Boolean> = stateFilters
@@ -64,8 +63,8 @@ class GeneralViewModel @Inject constructor(
 
     private fun makeSearchRequest(query: String, page: Int, isPagination: Boolean) {
         state.postValue(ResponseState.Loading(isPagination))
-        filtersMap = filtersInteractor.getAllFilters()
         viewModelScope.launch {
+            val filtersMap = filtersInteractor.getAllFilters()
             when (val response = searchVacanciesUseCase(query, page, filtersMap)) {
                 is ResponseState.ContentVacanciesList -> {
                     maxPages = response.pages
@@ -121,9 +120,15 @@ class GeneralViewModel @Inject constructor(
         }
     }
 
-    fun updateHasFilters() {
-        filtersMap = filtersInteractor.getAllFilters()
-        stateFilters.postValue(filtersMap.isNotEmpty())
+    fun updateData() {
+        stateFilters.postValue(filtersInteractor.getAllFilters().isNotEmpty())
+        val currentValue = state.value
+        viewModelScope.launch {
+            if (currentValue is ResponseState.ContentVacanciesList) {
+                val newValue = currentValue.copy(listVacancy = fillFavorites(currentValue.listVacancy))
+                state.postValue(newValue)
+            }
+        }
     }
 
     fun switchFavorite(id: String, position: Int) {
@@ -134,7 +139,6 @@ class GeneralViewModel @Inject constructor(
             if (currentValue is ResponseState.ContentVacanciesList) {
                 currentValue.listVacancy.get(position).isFavorite = isFavorite
             }
-
 
             if (isFavorite) {
                 favoritesInteractor.deleteDbVacanciFromFavorite(id)

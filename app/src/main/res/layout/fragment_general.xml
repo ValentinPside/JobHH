@@ -98,13 +98,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_edit_text"
-        app:cardCornerRadius="@dimen/dimen_8dp"
+        app:cardCornerRadius="@dimen/dimen_12dp"
         >
         <TextView
             android:id="@+id/found_count_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="4dp"
+            android:paddingHorizontal="@dimen/dimen_12dp"
+            android:paddingVertical="@dimen/dimen_4dp"
             android:background="@color/Blue_yp"
             android:textColor="@color/white"
             android:text="@string/found_count" />

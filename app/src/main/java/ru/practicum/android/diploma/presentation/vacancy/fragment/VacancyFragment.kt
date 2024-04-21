@@ -63,6 +63,8 @@ class VacancyFragment : Fragment(R.layout.fragment_vacancy) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.companyName.isSelected = true
+
         binding.buttonAddToFavorites.setOnClickListener {
             viewModel.clickFavorite()
         }
