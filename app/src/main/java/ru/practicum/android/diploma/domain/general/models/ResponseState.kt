@@ -10,6 +10,7 @@ sealed class ResponseState {
     data class ContentVacanciesList(
         val listVacancy: List<Vacancy>,
         val found: Int,
+        val page: Int,
         val pages: Int
     ) : ResponseState()
     data class ContentVacancyDetail(val vacancyDetail: VacancyDetail) : ResponseState()

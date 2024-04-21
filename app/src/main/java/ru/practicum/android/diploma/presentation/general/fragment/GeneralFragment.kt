@@ -46,6 +46,7 @@ import ru.practicum.android.diploma.util.UtilFunction
 import ru.practicum.android.diploma.util.debounceFun
 import ru.practicum.android.diploma.util.onTextChangeDebounce
 import ru.practicum.android.diploma.util.visibleOrGone
+import java.io.IOException
 import kotlin.math.abs
 
 
@@ -327,20 +328,24 @@ class GeneralFragment : Fragment(R.layout.fragment_general) {
                     currentHolder?.isOpen = false
                     currentHolder = null
                     debaunceCloseItems(true)
-                    val vacancy = adapter.currentList.get(favState.position)
-                    if (vacancy.id == favState.id) {
-                        vacancy.isFavorite = favState.isFavorite
-                        when (favState.isFavorite) {
-                            true -> {
-                                R.drawable.favorite_vacancy_drawable_fill
-                            }
+                    try {
+                        val vacancy = adapter.currentList.get(favState.position)
+                        if (vacancy.id == favState.id) {
+                            vacancy.isFavorite = favState.isFavorite
+                            when (favState.isFavorite) {
+                                true -> {
+                                    R.drawable.favorite_vacancy_drawable_fill
+                                }
 
-                            false -> {
-                                R.drawable.favorite_vacancy_drawable_empty
+                                false -> {
+                                    R.drawable.favorite_vacancy_drawable_empty
+                                }
                             }
+                        } else {
+                            R.drawable.favorite_vacancy_drawable_empty
                         }
-                    } else {
-                        R.drawable.favorite_vacancy_drawable_empty
+                    } catch (e: IOException) {
+                        println(e)
                     }
                 }
 
