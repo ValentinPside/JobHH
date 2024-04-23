@@ -11,7 +11,6 @@ data class VacancyDetail(
     val area: String?,
     val employment: String?,
     val alternateUrl: String?,
-//    val contacts: Contacts?
     val contactsEmail: String?,
     val contactsName: String?,
     val contactsPhones: List<String>?,

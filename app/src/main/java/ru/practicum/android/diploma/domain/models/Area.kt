@@ -5,5 +5,5 @@ data class Area(
     val parentId: String,
     val parentArea: Area?,
     val name: String,
-    val areas: List<Area> = emptyList<Area>()
+    val areas: List<Area> = emptyList()
 )

@@ -11,29 +11,29 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_graph"/>
-
+        app:navGraph="@navigation/nav_graph" />
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:itemActiveIndicatorStyle="@style/Theme.BottomNavigationView.ActiveIndicator"
         app:itemBackground="@color/bottom_menu_selected_background"
         app:itemIconTint="@color/bottom_menu_selected_item"
-        app:itemTextColor="@color/bottom_menu_selected_item"
         app:itemTextAppearanceActive="@style/SmallTextStyle"
         app:itemTextAppearanceInactive="@style/SmallTextStyle"
-        app:itemActiveIndicatorStyle="@style/Theme.BottomNavigationView.ActiveIndicator"
-        app:menu="@menu/bottom_menu"
+        app:itemTextColor="@color/bottom_menu_selected_item"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_menu">
+
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/divider"
             android:layout_width="match_parent"

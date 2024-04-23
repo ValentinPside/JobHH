@@ -16,8 +16,8 @@
 
     <style name="inputTextEditStyle">
         <item name="android:textColor">@color/BlackUniversal_yp</item>
-        <item name="hintTextAppearance">@style/LowTitleTextStyle</item>
-        <item name="android:textAppearance">@style/LowTitleTextStyle</item>
+        <item name="hintTextAppearance">@style/StandartTextStyle</item>
+        <item name="android:textAppearance">@style/StandartTextStyle</item>
         <item name="android:background">@drawable/background_corners12</item>
         <item name="android:singleLine">true</item>
         <item name="android:textCursorDrawable">@drawable/cursor_edit_text</item>

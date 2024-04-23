@@ -69,6 +69,7 @@ class FiltersRegionFragment : Fragment(R.layout.fragment_filters_region) {
             .onEach {
                 val query = it?.toString().orEmpty()
                 viewModel.search(query)
+
             }.launchIn(lifecycleScope)
 
         binding.clearButton.setOnClickListener {

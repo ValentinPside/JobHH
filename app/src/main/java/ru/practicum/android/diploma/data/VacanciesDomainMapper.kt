@@ -35,11 +35,6 @@ fun EmployerDto.asDomain(): Employer = Employer(
     trusted = trusted,
     vacanciesUrl = vacanciesUrl
 )
-// fun ContactsDto.asDomain(): Contacts = Contacts(
-//    name = this.name,
-//    email = this.email,
-//    phones = this.phones
-// )
 
 fun VacancyDetailDto.asDomain(): VacancyDetail {
     val employment = listOfNotNull(
@@ -64,13 +59,13 @@ fun VacancyDetailDto.asDomain(): VacancyDetail {
         area = area?.name,
         employment = employment,
         alternateUrl = alternateUrl,
-        // contacts = contacts?
         contactsEmail = contacts?.email,
         contactsName = contacts?.name,
         contactsPhones = contacts?.phones.let { list -> list?.map { createPhone(it) } },
         comment = contactComments,
     )
 }
+
 private fun createPhone(phone: PhoneDto): String {
     return "+${phone.country}" + " (${phone.city})" + " ${phone.number}"
 }

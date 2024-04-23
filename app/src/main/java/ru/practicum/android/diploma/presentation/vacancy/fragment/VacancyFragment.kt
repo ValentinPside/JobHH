@@ -91,8 +91,10 @@ class VacancyFragment : Fragment(R.layout.fragment_vacancy) {
         }
         binding.clPlaceholderTrouble.isVisible = when (state) {
             is VacancyViewState.Error -> {
-                if (state.isPageNotFound) { binding.tvSrcText.setText(R.string.delete_vacancy)
-                } else { binding.tvSrcText.setText(R.string.server_error)
+                if (state.isPageNotFound) {
+                    binding.tvSrcText.setText(R.string.delete_vacancy)
+                } else {
+                    binding.tvSrcText.setText(R.string.server_error)
                 }
                 true
             }
@@ -190,7 +192,7 @@ class VacancyFragment : Fragment(R.layout.fragment_vacancy) {
         vacancy.employer?.let {
             Glide.with(requireContext())
                 .load(vacancy.employer.logoUrls)
-                .placeholder(R.drawable.placeholder_company_icon)
+                .placeholder(R.drawable.ic_placeholder)
                 .fitCenter()
                 .transform(RoundedCorners(RADIUS))
                 .into(binding.ivCompany)

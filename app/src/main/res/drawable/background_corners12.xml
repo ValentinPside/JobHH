@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--Так (каждый угол по отдельности)
-    <corners android:bottomLeftRadius="0dp" android:bottomRightRadius="0dp"
-        android:topLeftRadius="20dp" android:topRightRadius="20dp"/>
-       -->
-    <!--Или так (все углы за раз)-->
-    <corners android:radius="12dp"/>
+    <corners android:radius="12dp" />
 </shape>

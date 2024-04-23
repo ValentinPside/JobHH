@@ -138,6 +138,7 @@ class RetrofitNetworkClient @Inject constructor(
             Response().apply { resultCode = exception.code() }
         }
     }
+
     private fun isOnline(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

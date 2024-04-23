@@ -1,66 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?colorSecondary"
     android:orientation="vertical"
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
-    android:background="?colorSecondary"
     tools:context=".presentation.team.TeamFragment">
-    
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tv_team"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         style="@style/toolbarTitle"
-        app:title="@string/team_head_name"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/team_head_name" />
 
 
     <TextView
+        style="@style/BoldTitleTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_16dp"
         android:layout_marginTop="30dp"
-        android:layout_marginStart="@dimen/dimen_16dp"
         android:text="@string/team_works"
-        android:textColor="@color/BlackDay_WhiteNight"
-        style="@style/BoldTitleTextStyle" />
+        android:textColor="@color/BlackDay_WhiteNight" />
 
     <TextView
+        style="@style/LowTitleTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_16dp"
         android:layout_marginTop="26dp"
-        android:layout_marginStart="@dimen/dimen_16dp"
         android:text="@string/team_developer_1"
-        android:textColor="@color/BlackDay_WhiteNight"
-        style="@style/LowTitleTextStyle" />
+        android:textColor="@color/BlackDay_WhiteNight" />
 
     <TextView
+        style="@style/LowTitleTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_16dp"
         android:layout_marginStart="@dimen/dimen_16dp"
+        android:layout_marginTop="@dimen/dimen_16dp"
         android:text="@string/team_developer_2"
-        android:textColor="@color/BlackDay_WhiteNight"
-        style="@style/LowTitleTextStyle" />
+        android:textColor="@color/BlackDay_WhiteNight" />
 
     <TextView
+        style="@style/LowTitleTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_16dp"
         android:layout_marginStart="@dimen/dimen_16dp"
+        android:layout_marginTop="@dimen/dimen_16dp"
         android:text="@string/team_developer_3"
-        android:textColor="@color/BlackDay_WhiteNight"
-        style="@style/LowTitleTextStyle" />
+        android:textColor="@color/BlackDay_WhiteNight" />
 
     <TextView
+        style="@style/LowTitleTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_16dp"
         android:layout_marginStart="@dimen/dimen_16dp"
+        android:layout_marginTop="@dimen/dimen_16dp"
         android:text="@string/team_developer_4"
-        android:textColor="@color/BlackDay_WhiteNight"
-        style="@style/LowTitleTextStyle" />
+        android:textColor="@color/BlackDay_WhiteNight" />
 
 </LinearLayout>

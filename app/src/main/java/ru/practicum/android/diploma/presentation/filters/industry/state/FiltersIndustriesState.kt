@@ -7,6 +7,7 @@ sealed interface FiltersIndustriesState {
         val data: List<IndustriesAdapterItem>,
         val currentIndustryId: String?
     ) : FiltersIndustriesState
+
     data object Loading : FiltersIndustriesState
     data object Error : FiltersIndustriesState
     data object Empty : FiltersIndustriesState

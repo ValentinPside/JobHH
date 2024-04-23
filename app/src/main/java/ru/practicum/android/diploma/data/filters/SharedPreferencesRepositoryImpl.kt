@@ -13,7 +13,7 @@ class SharedPreferencesRepositoryImpl(
 ) : SharedPreferencesRepository {
 
     private fun getFilterValue(json: String): FilterValue {
-        return gson.fromJson<FilterValue>(
+        return gson.fromJson(
             json,
             object : TypeToken<FilterValue>() {}.type
         )

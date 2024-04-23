@@ -33,12 +33,12 @@
 
             <ImageView
                 android:id="@+id/button_add_to_favorites"
+                style="@style/FavoriteButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginEnd="@dimen/dimen_8dp"
                 android:paddingEnd="@dimen/dimen_16dp"
-                style="@style/FavoriteButtonStyle"
                 android:visibility="visible" />
 
             <ImageView
@@ -69,17 +69,17 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/dimen_8dp"
-                    android:paddingEnd="@dimen/dimen_16dp"
                     android:gravity="start|center_horizontal"
+                    android:paddingEnd="@dimen/dimen_16dp"
                     android:textColor="?colorPrimary"
-                    app:layout_constraintStart_toStartOf="@id/guidelineVertical"
                     app:layout_constraintEnd_toStartOf="@id/guidelineVertical2"
+                    app:layout_constraintStart_toStartOf="@id/guidelineVertical"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="JOB_NAME" />
 
                 <TextView
                     android:id="@+id/job_salary"
-                    style="@style/StandartTextStyle"
+                    style="@style/TitleTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="?colorPrimary"
@@ -90,7 +90,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_view_company"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
                     android:backgroundTint="@color/LightGray_yp"
                     android:clickable="true"
@@ -102,33 +102,40 @@
                     app:layout_constraintStart_toStartOf="@id/guidelineVertical"
                     app:layout_constraintTop_toBottomOf="@id/job_salary">
 
-                    <TextView
-                        android:id="@+id/company_name"
-                        style="@style/TitleTextStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="75dp"
-                        android:layout_marginTop="@dimen/dimen_16dp"
-                        android:singleLine="true"
-                        android:textColor="@color/BlackUniversal_yp"
-                        tools:text="COMPANY_NAME_TEXT" />
-
-                    <TextView
-                        android:id="@+id/company_city"
-                        style="@style/StandartTextStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="75dp"
-                        android:layout_marginTop="46dp"
-                        android:textColor="@color/BlackUniversal_yp"
-                        tools:text="company_city_text" />
-
                     <ImageView
                         android:id="@+id/iv_company"
                         android:layout_width="@dimen/big_size"
                         android:layout_height="@dimen/big_size"
-                        android:layout_marginStart="@dimen/dimen_16dp"
-                        android:layout_marginTop="@dimen/dimen_16dp" />
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginVertical="@dimen/dimen_16dp"
+                        android:layout_marginStart="@dimen/dimen_16dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="75dp"
+                        android:layout_marginEnd="@dimen/dimen_16dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/company_name"
+                            style="@style/TitleTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dimen_16dp"
+                            android:maxLines="3"
+                            android:textColor="@color/BlackUniversal_yp"
+                            tools:text="COMPANY_NAME_TEXT" />
+
+                        <TextView
+                            android:id="@+id/company_city"
+                            style="@style/StandartTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dimen_16dp"
+                            android:textColor="@color/BlackUniversal_yp"
+                            tools:text="company_city_text" />
+                    </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
                 <TextView
@@ -196,12 +203,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen_8dp"
+                    android:text="Ключевые навыки"
                     android:textColor="?colorPrimary"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="@id/guidelineVertical2"
                     app:layout_constraintStart_toStartOf="@id/guidelineVertical"
-                    app:layout_constraintTop_toBottomOf="@id/vacancy_description"
-                    android:text="Ключевые навыки" />
+                    app:layout_constraintTop_toBottomOf="@id/vacancy_description" />
 
                 <TextView
                     android:id="@+id/key_skills_recycler_view"
@@ -224,11 +231,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
+                    android:text="@string/contacts"
                     android:textColor="?colorPrimary"
                     app:layout_constraintEnd_toEndOf="@id/guidelineVertical2"
                     app:layout_constraintStart_toStartOf="@id/guidelineVertical"
-                    app:layout_constraintTop_toBottomOf="@id/key_skills_recycler_view"
-                    android:text="@string/contacts" />
+                    app:layout_constraintTop_toBottomOf="@id/key_skills_recycler_view" />
 
                 <TextView
                     android:id="@+id/contact_person"
@@ -284,11 +291,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen_16dp"
+                    android:text="Телефон"
                     android:textColor="?colorPrimary"
                     app:layout_constraintEnd_toEndOf="@id/guidelineVertical2"
                     app:layout_constraintStart_toStartOf="@id/guidelineVertical"
-                    app:layout_constraintTop_toBottomOf="@id/contact_person_email_data"
-                    android:text="Телефон" />
+                    app:layout_constraintTop_toBottomOf="@id/contact_person_email_data" />
 
                 <TextView
                     android:id="@+id/contact_person_phone_data"

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="9dp"
-    android:paddingBottom="9dp"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:paddingBottom="9dp">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card"
@@ -23,13 +23,13 @@
             android:id="@+id/iv_company"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:strokeWidth="1dp"
+            android:background="@color/WhiteUniversal_yp"
             android:padding="1dp"
-            app:strokeColor="@color/black"
             android:scaleType="centerInside"
-            android:src="@drawable/placeholder_company_icon"
+            android:src="@drawable/ic_placeholder"
             app:shapeAppearanceOverlay="@style/rounded_12"
-            android:background="@color/white"/>
+            app:strokeColor="@color/LightGray_yp"
+            app:strokeWidth="1dp" />
     </com.google.android.material.card.MaterialCardView>
 
     <TextView
@@ -40,10 +40,10 @@
         android:layout_marginStart="@dimen/dimen_12dp"
         android:ellipsize="end"
         android:maxLines="3"
+        android:textColor="@color/BlackDay_WhiteNight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/card"
         app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/BlackDay_WhiteNight"
         tools:text="Разработчик на С++ в команду внутренних сервисов, Москва" />
 
     <TextView
@@ -54,10 +54,10 @@
         android:layout_marginStart="@dimen/dimen_12dp"
         android:ellipsize="end"
         android:maxLines="1"
+        android:textColor="@color/BlackDay_WhiteNight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/card"
         app:layout_constraintTop_toBottomOf="@id/tv_vacancy_name"
-        android:textColor="@color/BlackDay_WhiteNight"
         tools:text="Авто.ру" />
 
     <TextView
@@ -68,10 +68,10 @@
         android:layout_marginStart="@dimen/dimen_12dp"
         android:ellipsize="end"
         android:maxLines="1"
+        android:textColor="@color/BlackDay_WhiteNight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/card"
         app:layout_constraintTop_toBottomOf="@id/department"
-        android:textColor="@color/BlackDay_WhiteNight"
         tools:text="от 40 000 до 80 000 ₽" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

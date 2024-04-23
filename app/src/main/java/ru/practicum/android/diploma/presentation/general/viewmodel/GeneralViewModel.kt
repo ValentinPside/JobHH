@@ -16,11 +16,13 @@ class GeneralViewModel @Inject constructor(
     private val filtersInteractor: FiltersInteractor
 ) : ViewModel() {
 
+    private var nextPageNumber = 0
+
     private val state = MutableLiveData<ResponseState>()
 
     private val stateFilters = MutableLiveData<Boolean>()
 
-    private var currentListVacancies = emptyList<Vacancy>()
+    private var currentListVacancies = mutableListOf<Vacancy>()
 
     fun observeUi(): LiveData<ResponseState> = state
     fun observeFilters(): LiveData<Boolean> = stateFilters
@@ -35,7 +37,7 @@ class GeneralViewModel @Inject constructor(
 
     private var maxPages: Int? = 0
 
-    fun search(query: String, page: Int = 0) {
+    fun search(query: String) {
         if (this.query == query) return
         this.query = query
 
@@ -43,26 +45,33 @@ class GeneralViewModel @Inject constructor(
             state.postValue(ResponseState.Start)
             return
         }
-        makeSearchRequest(query, page, false)
+        makeSearchRequest(query, false)
     }
 
-    private fun makeSearchRequest(query: String, page: Int, isPagination: Boolean) {
+    private fun makeSearchRequest(query: String, isPagination: Boolean) {
         state.postValue(ResponseState.Loading(isPagination))
         viewModelScope.launch {
             val filtersMap = filtersInteractor.getAllFilters()
-            when (val response = searchVacanciesUseCase(query, page, filtersMap)) {
+            if (!isPagination) nextPageNumber = 0
+            when (val response = searchVacanciesUseCase(query, nextPageNumber, filtersMap)) {
                 is ResponseState.ContentVacanciesList -> {
+                    nextPageNumber = response.page + 1
                     maxPages = response.pages
-                    currentListVacancies = if (isPagination) {
-                        currentListVacancies + response.listVacancy
-                    } else {
-                        response.listVacancy
+                    if (!isPagination) {
+                        currentListVacancies.clear()
+                    }
+
+                    response.listVacancy.forEach {
+                        if (currentListVacancies.find { vacancy -> it.id == vacancy.id } == null) {
+                            currentListVacancies.add(it)
+                        }
                     }
 
                     state.postValue(
                         ResponseState.ContentVacanciesList(
                             currentListVacancies,
                             response.found,
+                            response.page,
                             response.pages
                         )
                     )
@@ -80,21 +89,16 @@ class GeneralViewModel @Inject constructor(
         }
     }
 
-    private fun searchPagination(query: String, page: Int = 0) {
+    private fun searchPagination(query: String) {
         if (isNextPageLoading) return
-        maxPages?.let { if (page + 1 >= it) return }
+        maxPages?.let { if (nextPageNumber + 1 >= it) return }
 
         isNextPageLoading = true
-        makeSearchRequest(query, page, true)
+        makeSearchRequest(query, true)
     }
 
     fun onLastItemReached() {
-        val page = if (state.value is ResponseState.ContentVacanciesList) {
-            (state.value as ResponseState.ContentVacanciesList).listVacancy.size / PAG_COUNT
-        } else {
-            1
-        }
-        query?.let { searchPagination(it, page) }
+        query?.let { searchPagination(it) }
     }
 
     fun searchOnFilterChanged() {

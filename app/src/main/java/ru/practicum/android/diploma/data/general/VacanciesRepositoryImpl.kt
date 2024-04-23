@@ -34,7 +34,7 @@ class VacanciesRepositoryImpl @Inject constructor(
             if (listVacancies.isEmpty()) {
                 ResponseState.Empty
             } else {
-                ResponseState.ContentVacanciesList(listVacancies, response.found, response.pages)
+                ResponseState.ContentVacanciesList(listVacancies, response.found, response.page, response.pages)
             }
         } else if (response.resultCode >= HTTP_CLIENT_ERROR) {
             ResponseState.ServerError
