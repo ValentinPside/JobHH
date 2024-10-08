@@ -22,7 +22,7 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.app.App
 import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
 import ru.practicum.android.diploma.domain.models.VacancyDetail
-import ru.practicum.android.diploma.presentation.Factory
+import ru.practicum.android.diploma.util.Factory
 import ru.practicum.android.diploma.presentation.vacancy.models.VacancyViewState
 import ru.practicum.android.diploma.presentation.vacancy.viewmodel.VacancyViewModel
 import ru.practicum.android.diploma.util.SalaryUtil

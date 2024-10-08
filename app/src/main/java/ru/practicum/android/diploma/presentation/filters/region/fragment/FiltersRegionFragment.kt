@@ -24,7 +24,7 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.app.App
 import ru.practicum.android.diploma.databinding.FragmentFiltersRegionBinding
 import ru.practicum.android.diploma.domain.models.Area
-import ru.practicum.android.diploma.presentation.Factory
+import ru.practicum.android.diploma.util.Factory
 import ru.practicum.android.diploma.presentation.filters.main.fragment.FiltersMainFragment
 import ru.practicum.android.diploma.presentation.filters.region.state.AreaViewState
 import ru.practicum.android.diploma.presentation.filters.region.state.RegionSelectResult

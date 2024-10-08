@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.onEach
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.app.App
 import ru.practicum.android.diploma.databinding.FragmentFiltersMainBinding
-import ru.practicum.android.diploma.presentation.Factory
+import ru.practicum.android.diploma.util.Factory
 import ru.practicum.android.diploma.presentation.filters.CustomViewPropertysSetter.setViewPropertys
 import ru.practicum.android.diploma.presentation.filters.main.state.FiltersMainViewState
 import ru.practicum.android.diploma.presentation.filters.main.viewmodel.FiltersMainViewModel
