@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.app.App
 import ru.practicum.android.diploma.databinding.FragmentFilterIndustryBinding
-import ru.practicum.android.diploma.presentation.Factory
+import ru.practicum.android.diploma.util.Factory
 import ru.practicum.android.diploma.presentation.filters.industry.state.FiltersIndustriesState
 import ru.practicum.android.diploma.presentation.filters.industry.viewmodel.IndustryViewModel
 import ru.practicum.android.diploma.presentation.filters.main.fragment.FiltersMainFragment

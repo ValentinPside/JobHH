@@ -18,7 +18,7 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.app.App
 import ru.practicum.android.diploma.databinding.FragmentFiltersWorkplaceBinding
 import ru.practicum.android.diploma.domain.filters.models.FilterValue
-import ru.practicum.android.diploma.presentation.Factory
+import ru.practicum.android.diploma.util.Factory
 import ru.practicum.android.diploma.presentation.filters.CustomViewPropertysSetter.setViewPropertys
 import ru.practicum.android.diploma.presentation.filters.main.fragment.FiltersMainFragment
 import ru.practicum.android.diploma.presentation.filters.region.state.FiltersWorkPlaceViewState
