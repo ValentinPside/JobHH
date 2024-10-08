@@ -52,7 +52,7 @@ class FavoritesRepositoryImpl @Inject constructor(
 
 private fun FavoritesVacanciesEntity.mapToVacancyDetail(): VacancyDetail {
     val gson = Gson()
-    return gson.fromJson<VacancyDetail>(
+    return gson.fromJson(
         vacancyDetailData,
         object : TypeToken<VacancyDetail>() {}.type
     )

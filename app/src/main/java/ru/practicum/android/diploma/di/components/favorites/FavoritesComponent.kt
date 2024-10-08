@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.di.favorites
+package ru.practicum.android.diploma.di.components.favorites
 
 import dagger.Subcomponent
 import ru.practicum.android.diploma.presentation.favorites.viewmodel.FavoritesViewModel

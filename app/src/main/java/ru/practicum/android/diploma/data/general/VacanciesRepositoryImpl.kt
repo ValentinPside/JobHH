@@ -8,8 +8,6 @@ import ru.practicum.android.diploma.domain.api.VacanciesRepository
 import ru.practicum.android.diploma.domain.general.models.ResponseState
 import javax.inject.Inject
 
-const val PAGINATION_COUNT_PAGES = "20"
-
 class VacanciesRepositoryImpl @Inject constructor(
     private val networkClient: NetworkClient
 ) : VacanciesRepository {
@@ -19,6 +17,7 @@ class VacanciesRepositoryImpl @Inject constructor(
         const val HTTP_CLIENT_ERROR = 400
         const val HTTP_PAGE_NOT_FOUND = 404
         const val HTTP_SERVER_ERROR = 500
+        const val PAGINATION_COUNT_PAGES = "20"
     }
 
     override suspend fun search(text: String, page: Int, filters: Map<String, String>): ResponseState {

@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.di.vacancy
+package ru.practicum.android.diploma.di.components.vacancy
 
 import dagger.BindsInstance
 import dagger.Subcomponent
