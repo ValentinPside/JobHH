@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.di.filters
+package ru.practicum.android.diploma.di.components.filters
 
 import dagger.BindsInstance
 import dagger.Subcomponent

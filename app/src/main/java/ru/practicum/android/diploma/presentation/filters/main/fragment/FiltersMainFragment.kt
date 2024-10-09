@@ -46,8 +46,8 @@ class FiltersMainFragment : Fragment(R.layout.fragment_filters_main) {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentFiltersMainBinding.inflate(layoutInflater)
-        binding.llWorkPlace.smallTextBlock.setText(getString(R.string.filter_workplace))
-        binding.llIndustries.smallTextBlock.setText(getString(R.string.filter_industries))
+        binding.llWorkPlace.smallTextBlock.text = getString(R.string.filter_workplace)
+        binding.llIndustries.smallTextBlock.text = getString(R.string.filter_industries)
         return binding.root
     }
 
